@@ -1,119 +1,88 @@
+import { css } from '../styled-system/css'
 import Link from 'next/link'
-import { useState } from 'react'
-import { Icon } from './Icon'
-
-const menuItemClasses =
-  'w-full flex items-center gap-3 p-3 px-6 text-sm tracking-wide text-slate-700 dark:text-slate-700 hover:text-slate-800 dark:hover:text-slate-950 hover:font-semibold transition-colors transition-all border-b border-b-slate-200 dark:border-b-slate-300 hover:bg-slate-100 dark:hover:bg-white'
-
-const iconClasses = 'size-4 opacity-70'
 
 export default function Header() {
-  const [navbar, setNavbar] = useState(false)
-
   return (
-    <header className="flex p-4 sm:p-6 fixed w-full z-10 pointer-events-none">
-      <nav className="flex w-full justify-between items-center">
-        <Link
-          href="/"
-          className="font-bold opacity-80 hover:opacity-100 transition-opacity rounded outline-offset-8 pointer-events-auto"
-        >
-          dc.tips
+    <header className={css({
+      width: '100%',
+      padding: '1rem 2rem',
+      background: 'neutral.950',
+      borderBottom: '1px solid',
+      borderColor: 'neutral.800',
+      position: 'sticky',
+      top: '0',
+      zIndex: '50',
+    })}>
+      <div className={css({
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      })}>
+        <Link href="/" className={css({
+          fontSize: '1.5rem',
+          fontWeight: 'bold',
+          background: 'linear-gradient(to right, #00f5a0, #00d9f5)',
+          backgroundClip: 'text',
+          color: 'transparent',
+          textDecoration: 'none',
+        })}>
+          Long Soft
         </Link>
-
-        <div className="absolute right-0 top-4 sm:top-5 group pointer-events-auto">
-          <button
-            className="p-2 text-xs uppercase font-bold rounded-lg absolute right-4 sm:right-6 z-10 bg-white text-slate-700 dark:bg-slate-300 shadow-md hover:shadow-lg transition-shadow"
-            type="button"
-            onClick={() => setNavbar(!navbar)}
-          >
-            {navbar ? (
-              <span aria-label="Close menu" className="w-4 block">
-                <Icon name="close" className="size-4" />
-              </span>
-            ) : (
-              <span className="flex gap-2 items-center group text-xs">
-                Menu
-                <Icon name="burger" className="size-4" />
-              </span>
-            )}
+        
+        <nav className={css({
+          display: 'flex',
+          gap: '2rem',
+          alignItems: 'center',
+        })}>
+          <Link href="/features" className={css({
+            color: 'neutral.300',
+            textDecoration: 'none',
+            transition: 'color 0.2s',
+            _hover: {
+              color: 'neutral.100',
+            },
+          })}>
+            Features
+          </Link>
+          <Link href="/pricing" className={css({
+            color: 'neutral.300',
+            textDecoration: 'none',
+            transition: 'color 0.2s',
+            _hover: {
+              color: 'neutral.100',
+            },
+          })}>
+            Pricing
+          </Link>
+          <Link href="/docs" className={css({
+            color: 'neutral.300',
+            textDecoration: 'none',
+            transition: 'color 0.2s',
+            _hover: {
+              color: 'neutral.100',
+            },
+          })}>
+            Documentation
+          </Link>
+          <button className={css({
+            padding: '0.5rem 1.5rem',
+            borderRadius: '0.5rem',
+            background: 'linear-gradient(to right, #00f5a0, #00d9f5)',
+            color: 'neutral.950',
+            fontWeight: 'bold',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'transform 0.2s',
+            _hover: {
+              transform: 'translateY(-2px)',
+            },
+          })}>
+            Sign In
           </button>
-
-          <div className={`${navbar ? '' : 'hidden'}`}>
-            <menu className="min-w-48 flex flex-col absolute right-4 sm:right-6 py-3 bg-white dark:bg-slate-100 rounded-xl shadow-md group-hover:shadow-lg transition-shadow">
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/"
-                  className={menuItemClasses}
-                >
-                  <Icon name="home" className={iconClasses} />
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/blog"
-                  className={menuItemClasses}
-                >
-                  <Icon name="blog" className={iconClasses} />
-                  Code Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/tags"
-                  className={menuItemClasses}
-                >
-                  <Icon name="tag" className={iconClasses} />
-                  All Tags
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/inspiration"
-                  className={menuItemClasses}
-                >
-                  <Icon name="inspiration" className={iconClasses} />
-                  Inspiration
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/podcasts"
-                  className={menuItemClasses}
-                >
-                  <Icon name="podcasts" className={iconClasses} />
-                  Podcasts
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/tools"
-                  className={menuItemClasses}
-                >
-                  <Icon name="tools" className={iconClasses} />
-                  Tools
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={() => setNavbar(!navbar)}
-                  href="/resources"
-                  className={menuItemClasses}
-                >
-                  <Icon name="resources" className={iconClasses} />
-                  Resources
-                </Link>
-              </li>
-            </menu>
-          </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
   )
 }
