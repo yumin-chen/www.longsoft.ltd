@@ -1,23 +1,145 @@
-import { Icon } from './Icon'
+import { css } from '../styled-system/css'
+import Link from 'next/link'
 
 export default function Footer() {
-  let currentYear = new Date().getFullYear()
-  // get last 2 digits of the currentYear
-  currentYear = parseInt(currentYear.toString().substr(-2))
-
   return (
-    <footer className="p-4 sm:p-6 bg-slate-200 dark:bg-slate-800">
-      <div className="flex items-center justify-between text-xs">
-        <p className="text-slate-700 dark:text-slate-300">
-          Copyright &copy; 2017-{currentYear}
-        </p>
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="flex items-center gap-2 outline-offset-8 rounded"
-        >
-          <span>Scroll to Top</span>
-          <Icon name="up" className="size-4" />
-        </button>
+    <footer className={css({
+      width: '100%',
+      padding: '4rem 2rem',
+      background: 'neutral.950',
+      borderTop: '1px solid',
+      borderColor: 'neutral.800',
+    })}>
+      <div className={css({
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: '4rem',
+      })}>
+        <div>
+          <h3 className={css({
+            fontSize: '1.5rem',
+            fontWeight: 'bold',
+            background: 'linear-gradient(to right, #00f5a0, #00d9f5)',
+            backgroundClip: 'text',
+            color: 'transparent',
+            marginBottom: '1rem',
+          })}>
+            Long Soft
+          </h3>
+          <p className={css({
+            color: 'neutral.400',
+            lineHeight: '1.6',
+          })}>
+            Building the next-generation low-code/no-code programming software for modern businesses.
+          </p>
+        </div>
+
+        <div>
+          <h4 className={css({
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            color: 'neutral.100',
+            marginBottom: '1rem',
+          })}>
+            Product
+          </h4>
+          <ul className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+          })}>
+            {['Features', 'Pricing', 'Documentation', 'Roadmap'].map((item) => (
+              <li key={item}>
+                <Link href={`/${item.toLowerCase()}`} className={css({
+                  color: 'neutral.400',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  _hover: {
+                    color: 'neutral.100',
+                  },
+                })}>
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className={css({
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            color: 'neutral.100',
+            marginBottom: '1rem',
+          })}>
+            Company
+          </h4>
+          <ul className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+          })}>
+            {['About', 'Careers', 'Blog', 'Contact'].map((item) => (
+              <li key={item}>
+                <Link href={`/${item.toLowerCase()}`} className={css({
+                  color: 'neutral.400',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  _hover: {
+                    color: 'neutral.100',
+                  },
+                })}>
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h4 className={css({
+            fontSize: '1.1rem',
+            fontWeight: 'bold',
+            color: 'neutral.100',
+            marginBottom: '1rem',
+          })}>
+            Legal
+          </h4>
+          <ul className={css({
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0.5rem',
+          })}>
+            {['Privacy', 'Terms', 'Security'].map((item) => (
+              <li key={item}>
+                <Link href={`/${item.toLowerCase()}`} className={css({
+                  color: 'neutral.400',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                  _hover: {
+                    color: 'neutral.100',
+                  },
+                })}>
+                  {item}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className={css({
+        maxWidth: '1200px',
+        margin: '4rem auto 0',
+        paddingTop: '2rem',
+        borderTop: '1px solid',
+        borderColor: 'neutral.800',
+        textAlign: 'center',
+        color: 'neutral.500',
+      })}>
+        <p>© {new Date().getFullYear()} Long Soft, Ltd. All rights reserved.</p>
       </div>
     </footer>
   )

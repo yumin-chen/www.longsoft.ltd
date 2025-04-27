@@ -1,164 +1,189 @@
-import { pick } from 'contentlayer2/client'
-import Layout from '../components/Layout'
-import {
-  Blog,
-  Inspiration,
-  Podcasts,
-  Resources,
-  Tools,
-  allBlogs,
-  allInspirations,
-  allPages,
-  allPodcasts,
-  allResources,
-  allTools,
-} from '../.contentlayer/generated'
-import Link from 'next/link'
-import BlogCardPost from '../components/cards/BlogPostCard'
-import InspirationPostCard from '../components/cards/InspirationPostCard'
-import PodcastPostCard from '../components/cards/PodcastPostCard'
-import ToolsPostCard from '../components/cards/ToolsPostCard'
-import { Metadata } from 'next'
-import { Icon } from '../components/Icon'
-import { AUTHOR_NAME, SITE_NAME, SITE_URL } from '../config'
+import { css } from '../styled-system/css'
 
-// Get page data
-const home = allPages.find((home) => home?.slug === 'home')
-
-// Metadata function for SEO
-export function generateMetadata(): Metadata {
-  const SEO = {
-    title: home?.title || 'Home',
-    description: home?.description || `Welcome to the Homepage of ${SITE_NAME}`,
-    image: `${SITE_URL}/og-card.png`,
-  }
-
-  return {
-    title: SEO.title,
-    description: SEO.description,
-    openGraph: {
-      url: `${SITE_URL}/`,
-      title: SEO.title,
-      description: SEO.description,
-      authors: `${AUTHOR_NAME}`,
-      images: [
-        {
-          url: SEO.image,
-          width: 1600,
-          height: 800,
-          alt: `${SITE_NAME}`,
-          type: 'image/jpeg',
-        },
-      ],
-      siteName: `${SITE_NAME}`,
-    },
-  }
-}
-
-// Get all posts and pick specific fields
 export default function Home() {
-  let blogs = allBlogs.map((post: Blog) =>
-    pick(post, ['featured', 'title', 'date', 'slug'])
-  )
-  blogs = blogs
-    .filter((post) => post.featured === true)
-    .sort(
-      (a, b) =>
-        new Date(b.date ?? '').getTime() - new Date(a.date ?? '').getTime()
-    )
-
-  let inspirations = allInspirations.map((post: Inspiration) =>
-    pick(post, ['featured', 'image', 'title', 'date', 'slug'])
-  )
-  inspirations = inspirations
-    .filter((post) => post.featured === true)
-    .slice(0, 6)
-
-  let podcasts = allPodcasts.map((post: Podcasts) =>
-    pick(post, ['featured', 'image', 'title', 'date', 'slug'])
-  )
-  podcasts = podcasts.filter((post) => post.featured === true).slice(0, 4)
-
-  let tools = allTools.map((post: Tools) =>
-    pick(post, ['featured', 'image', 'title', 'date', 'slug', 'description'])
-  )
-  tools = tools.filter((post) => post.featured === true).slice(0, 6)
-
-  let resources = allResources.map((post: Resources) =>
-    pick(post, ['featured', 'image', 'title', 'date', 'slug', 'description'])
-  )
-  resources = resources.filter((post) => post.featured === true).slice(0, 4)
-
   return (
-    <Layout>
-      <div className="md:max-w-[87%] m-auto px-4 md:px-12 flex flex-col gap-24 xl:gap-32 pb-24 xl:pb-36">
-        <h1 className="text-5xl lg:text-6xl max-w-[36rem] mt-24 text-balance">
-          {home?.title}
+    <main className={css({
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: '2rem',
+    })}>
+      {/* Hero Section */}
+      <section className={css({
+        minHeight: '80vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        gap: '2rem',
+        padding: '4rem 0',
+      })}>
+        <h1 className={css({
+          fontSize: '4.5rem',
+          fontWeight: 'bold',
+          lineHeight: '1.2',
+          maxWidth: '800px',
+          background: 'linear-gradient(to right, #00f5a0, #00d9f5)',
+          backgroundClip: 'text',
+          color: 'transparent',
+        })}>
+          Building the Future of Low-Code Development
         </h1>
+        <p className={css({
+          fontSize: '1.5rem',
+          color: 'neutral.400',
+          maxWidth: '600px',
+        })}>
+          Empowering developers and businesses to create powerful applications with minimal coding. Our next-generation platform makes software development accessible to everyone.
+        </p>
+        <div className={css({
+          display: 'flex',
+          gap: '1rem',
+          marginTop: '2rem',
+        })}>
+          <button className={css({
+            padding: '1rem 2rem',
+            borderRadius: '0.5rem',
+            background: 'linear-gradient(to right, #00f5a0, #00d9f5)',
+            color: 'neutral.950',
+            fontWeight: 'bold',
+            fontSize: '1.1rem',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'transform 0.2s',
+            _hover: {
+              transform: 'translateY(-2px)',
+            },
+          })}>
+            Get Started
+          </button>
+          <button className={css({
+            padding: '1rem 2rem',
+            borderRadius: '0.5rem',
+            background: 'transparent',
+            color: 'neutral.50',
+            fontWeight: 'bold',
+            fontSize: '1.1rem',
+            border: '2px solid',
+            borderColor: 'neutral.600',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            _hover: {
+              borderColor: 'neutral.400',
+              color: 'neutral.200',
+            },
+          })}>
+            Learn More
+          </button>
+        </div>
+      </section>
 
-        <section className="flex flex-col gap-4">
-          <div className="flex justify-between items-end mb-4">
-            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
-              <Icon name="blog" className="size-6 sm:size-8 opacity-60" />
-              <span>Code Blog</span>
-            </h2>
-            <Link href="/blog">View all &rarr;</Link>
-          </div>
-          <div className="grid xl:grid-cols-2 gap-4 flex-wrap">
-            {blogs.map((post) => (
-              <BlogCardPost key={post.slug} post={post as Blog} />
-            ))}
-          </div>
-        </section>
+      {/* Features Section */}
+      <section className={css({
+        padding: '6rem 0',
+      })}>
+        <h2 className={css({
+          fontSize: '2.5rem',
+          fontWeight: 'bold',
+          marginBottom: '3rem',
+          textAlign: 'center',
+        })}>
+          Why Choose Our Platform
+        </h2>
+        <div className={css({
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2rem',
+        })}>
+          {[
+            {
+              title: 'Visual Development',
+              description: 'Build applications through intuitive drag-and-drop interfaces and visual workflows.',
+              icon: '🎨',
+            },
+            {
+              title: 'AI-Powered Assistance',
+              description: 'Leverage artificial intelligence to accelerate development and improve code quality.',
+              icon: '🤖',
+            },
+            {
+              title: 'Enterprise Ready',
+              description: 'Scalable, secure, and compliant solutions for businesses of all sizes.',
+              icon: '🏢',
+            },
+          ].map((feature, index) => (
+            <div key={index} className={css({
+              padding: '2rem',
+              borderRadius: '1rem',
+              background: 'neutral.900',
+              border: '1px solid',
+              borderColor: 'neutral.800',
+              transition: 'transform 0.2s',
+              _hover: {
+                transform: 'translateY(-5px)',
+                borderColor: 'neutral.700',
+              },
+            })}>
+              <div className={css({
+                fontSize: '2.5rem',
+                marginBottom: '1rem',
+              })}>
+                {feature.icon}
+              </div>
+              <h3 className={css({
+                fontSize: '1.5rem',
+                fontWeight: 'bold',
+                marginBottom: '1rem',
+              })}>
+                {feature.title}
+              </h3>
+              <p className={css({
+                color: 'neutral.400',
+                lineHeight: '1.6',
+              })}>
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        <section className="flex flex-col gap-4">
-          <div className="flex justify-between items-end mb-4">
-            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
-              <Icon
-                name="inspiration"
-                className="size-6 sm:size-8 opacity-60"
-              />
-              <span>Inspiration</span>
-            </h2>
-            <Link href="/inspiration">View all &rarr;</Link>
-          </div>
-          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 flex-wrap">
-            {inspirations.map((post) => (
-              <InspirationPostCard key={post.slug} post={post as Inspiration} />
-            ))}
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <div className="flex justify-between items-end mb-4">
-            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
-              <Icon name="podcasts" className="size-6 sm:size-8 opacity-60" />
-              <span>Podcasts</span>
-            </h2>
-            <Link href="/podcasts">View all &rarr;</Link>
-          </div>
-          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 flex-wrap">
-            {podcasts.map((post) => (
-              <PodcastPostCard key={post.slug} post={post as Podcasts} />
-            ))}
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <div className="flex justify-between items-end mb-4">
-            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-3">
-              <Icon name="tools" className="size-6 sm:size-8 opacity-60" />
-              <span>Tools</span>
-            </h2>
-            <Link href="/tools">View all &rarr;</Link>
-          </div>
-          <div className="grid xl:grid-cols-2 gap-4 flex-wrap">
-            {tools.map((post) => (
-              <ToolsPostCard key={post.slug} post={post as Tools} />
-            ))}
-          </div>
-        </section>
-      </div>
-    </Layout>
+      {/* CTA Section */}
+      <section className={css({
+        padding: '6rem 0',
+        textAlign: 'center',
+      })}>
+        <h2 className={css({
+          fontSize: '2.5rem',
+          fontWeight: 'bold',
+          marginBottom: '1.5rem',
+        })}>
+          Ready to Transform Your Development Process?
+        </h2>
+        <p className={css({
+          fontSize: '1.2rem',
+          color: 'neutral.400',
+          marginBottom: '2rem',
+          maxWidth: '600px',
+          margin: '0 auto 2rem',
+        })}>
+          Join thousands of developers and businesses who are already building the future with our platform.
+        </p>
+        <button className={css({
+          padding: '1rem 2.5rem',
+          borderRadius: '0.5rem',
+          background: 'linear-gradient(to right, #00f5a0, #00d9f5)',
+          color: 'neutral.950',
+          fontWeight: 'bold',
+          fontSize: '1.2rem',
+          border: 'none',
+          cursor: 'pointer',
+          transition: 'transform 0.2s',
+          _hover: {
+            transform: 'translateY(-2px)',
+          },
+        })}>
+          Start Your Free Trial
+        </button>
+      </section>
+    </main>
   )
 }
